@@ -1,29 +1,35 @@
-import { Type, applyDecorators } from '@nestjs/common';
-import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
-import { ResponseMessage } from './utils/enums';
-import { Between, DeepPartial, Repository, UpdateResult } from 'typeorm';
+import { Type, applyDecorators } from "@nestjs/common";
+import { ApiExtraModels, ApiOkResponse, getSchemaPath } from "@nestjs/swagger";
+import { ResponseMessage } from "./utils/enums";
+import {
+  Between,
+  DeepPartial,
+  getRepository,
+  Repository,
+  UpdateResult,
+} from "typeorm";
 
 export class GeneralService<IEntity> {
   constructor(private repo: Repository<IEntity>) {}
 
   findAll(query: GeneralFilterOptions<IEntity>) {
     if (!this.repo) {
-      throw Error('Must set repo');
+      throw Error("Must set repo");
     }
 
     query = {
       ...query,
       limit: query.limit || 10,
       page: query.page || 0,
-      dateField: query.dateField || 'created',
-      order: query.order || 'DESC',
-      orderField: query.orderField || 'created',
+      dateField: query.dateField || "created",
+      order: query.order || "DESC",
+      orderField: query.orderField || "created",
       select:
-        typeof query.select === 'string'
+        typeof query.select === "string"
           ? JSON.parse(query.select)
           : query.select,
       whereClause:
-        typeof query.whereClause === 'string'
+        typeof query.whereClause === "string"
           ? JSON.parse(query.whereClause)
           : query.whereClause,
     };
@@ -41,7 +47,9 @@ export class GeneralService<IEntity> {
         take: query.limit,
         skip: query.limit * query.page,
         loadEagerRelations: true,
-        order: { [(query.orderField as string) || 'created']: query.order } as any,
+        order: {
+          [(query.orderField as string) || "created"]: query.order,
+        } as any,
       });
     }
 
@@ -54,19 +62,19 @@ export class GeneralService<IEntity> {
     if (query.searchString?.trim()) {
       x.addSelect(
         `SIMILARITY(slug, '${query.searchString.trim()}')`,
-        'score',
+        "score"
       ).andWhere(`SIMILARITY(slug, '${query.searchString.trim()}') > 0.1 `);
     }
 
     if (query.startDate) {
       x.andWhere(
         query.dateField || query.startDate,
-        Between(query.startDate, query.endDate),
+        Between(query.startDate, query.endDate)
       );
     }
 
     if (query.searchString) {
-      x.orderBy('score', 'DESC');
+      x.orderBy("score", "DESC");
     }
 
     if (query.order) {
@@ -75,49 +83,48 @@ export class GeneralService<IEntity> {
 
     return this.resultHandler(
       x.getMany(),
-      new ResponseMessage('read', this.repo.metadata.name),
+      new ResponseMessage("read", this.repo.metadata.name)
     );
   }
 
   findOne(id) {
     return this.resultHandler(
       this.repo.findOne(id),
-      new ResponseMessage('read-single', this.repo.metadata.name),
+      new ResponseMessage("read-single", this.repo.metadata.name)
     );
   }
 
   create(data: DeepPartial<IEntity>) {
     return this.resultHandler(
       this.repo.save(data),
-      new ResponseMessage('add', this.repo.metadata.name),
+      new ResponseMessage("add", this.repo.metadata.name)
     );
   }
 
   update(data: DeepPartial<IEntity>) {
     if (!(data as any).id) {
-      throw Error('Id required to update data');
+      throw Error("Id required to update data");
     }
     return this.resultHandler(
       this.repo.save(data),
-      new ResponseMessage('update', this.repo.metadata.name),
+      new ResponseMessage("update", this.repo.metadata.name)
     );
   }
 
   remove(id: number) {
     return this.resultHandler(
       this.repo.softDelete(id),
-      new ResponseMessage('delete', this.repo.metadata.name),
+      new ResponseMessage("delete", this.repo.metadata.name)
     );
   }
 
   resultHandler(
-    query:
-      | Promise<UpdateResult | Promise<DeepPartial<IEntity> & IEntity>>
-      | Promise<IEntity>
-      | Promise<IEntity[]>,
-    responseMessage: ResponseMessage,
+    query: Promise<
+      IEntity[] | IEntity | UpdateResult | (DeepPartial<IEntity> & IEntity)
+    >,
+    responseMessage: ResponseMessage
   ) {
-    return (query as any)
+    return query
       .then((val) => {
         return {
           result: val,
@@ -146,12 +153,12 @@ export interface GeneralFilterOptions<T> {
   whereClause?: Record<string, any> | string;
   select?: (keyof T)[] | string;
   orderField?: string;
-  order?: 'DESC' | 'ASC';
+  order?: "DESC" | "ASC";
 }
 
 export class GeneralResponse<T> {
   result: T;
-  message: ResponseMessage['message'];
+  message: ResponseMessage["message"];
   error: boolean;
 }
 
@@ -171,14 +178,14 @@ export const GenericResponse =
                   items: { $ref: getSchemaPath(dataDto) },
                 },
                 error: {
-                  type: 'boolean',
+                  type: "boolean",
                 },
                 message: {
-                  type: ResponseMessage['message'],
+                  type: ResponseMessage["message"],
                 },
               },
             },
           ],
         },
-      }),
+      })
     );
