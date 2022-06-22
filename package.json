@@ -1,6 +1,6 @@
 {
   "name": "@balocodes/drsal-nest-pg",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "General Request Handler for NestJs and Postgres",
   "main": "index.js",
   "scripts": {
