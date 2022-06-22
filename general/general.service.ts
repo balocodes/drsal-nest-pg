@@ -81,21 +81,21 @@ export class GeneralService<IEntity> {
       x.addOrderBy(query.orderField, query.order);
     }
 
-    return this.resultHandler(
+    return this.resultHandler<IEntity[]>(
       x.getMany(),
       new ResponseMessage("read", this.repo.metadata.name)
     );
   }
 
   findOne(id) {
-    return this.resultHandler(
+    return this.resultHandler<IEntity>(
       this.repo.findOne(id),
       new ResponseMessage("read-single", this.repo.metadata.name)
     );
   }
 
   create(data: DeepPartial<IEntity>) {
-    return this.resultHandler(
+    return this.resultHandler<DeepPartial<IEntity> & IEntity>(
       this.repo.save(data),
       new ResponseMessage("add", this.repo.metadata.name)
     );
@@ -105,20 +105,20 @@ export class GeneralService<IEntity> {
     if (!(data as any).id) {
       throw Error("Id required to update data");
     }
-    return this.resultHandler(
+    return this.resultHandler<DeepPartial<IEntity> & IEntity>(
       this.repo.save(data),
       new ResponseMessage("update", this.repo.metadata.name)
     );
   }
 
   remove(id: number) {
-    return this.resultHandler(
+    return this.resultHandler<UpdateResult>(
       this.repo.softDelete(id),
       new ResponseMessage("delete", this.repo.metadata.name)
     );
   }
 
-  resultHandler(
+  resultHandler<T>(
     query: Promise<
       IEntity[] | IEntity | UpdateResult | (DeepPartial<IEntity> & IEntity)
     >,
@@ -127,7 +127,7 @@ export class GeneralService<IEntity> {
     return query
       .then((val) => {
         return {
-          result: val,
+          result: val as any as T,
           message: responseMessage.message.SUCCESS,
           error: false,
         };

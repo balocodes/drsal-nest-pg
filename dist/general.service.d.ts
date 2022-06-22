@@ -1,15 +1,63 @@
-import { Type } from '@nestjs/common';
-import { ResponseMessage } from './utils/enums';
-import { DeepPartial, Repository, UpdateResult } from 'typeorm';
+import { Type } from "@nestjs/common";
+import { ResponseMessage } from "./utils/enums";
+import { DeepPartial, Repository, UpdateResult } from "typeorm";
 export declare class GeneralService<IEntity> {
     private repo;
     constructor(repo: Repository<IEntity>);
-    findAll(query: GeneralFilterOptions<IEntity>): any;
-    findOne(id: any): any;
-    create(data: DeepPartial<IEntity>): any;
-    update(data: DeepPartial<IEntity>): any;
-    remove(id: number): any;
-    resultHandler(query: Promise<UpdateResult | Promise<DeepPartial<IEntity> & IEntity>> | Promise<IEntity> | Promise<IEntity[]>, responseMessage: ResponseMessage): any;
+    findAll(query: GeneralFilterOptions<IEntity>): Promise<IEntity[]> | Promise<{
+        result: IEntity[];
+        message: string;
+        error: boolean;
+    } | {
+        result: any;
+        message: string;
+        error: boolean;
+    }>;
+    findOne(id: any): Promise<{
+        result: IEntity;
+        message: string;
+        error: boolean;
+    } | {
+        result: any;
+        message: string;
+        error: boolean;
+    }>;
+    create(data: DeepPartial<IEntity>): Promise<{
+        result: DeepPartial<IEntity> & IEntity;
+        message: string;
+        error: boolean;
+    } | {
+        result: any;
+        message: string;
+        error: boolean;
+    }>;
+    update(data: DeepPartial<IEntity>): Promise<{
+        result: DeepPartial<IEntity> & IEntity;
+        message: string;
+        error: boolean;
+    } | {
+        result: any;
+        message: string;
+        error: boolean;
+    }>;
+    remove(id: number): Promise<{
+        result: UpdateResult;
+        message: string;
+        error: boolean;
+    } | {
+        result: any;
+        message: string;
+        error: boolean;
+    }>;
+    resultHandler<T>(query: Promise<IEntity[] | IEntity | UpdateResult | (DeepPartial<IEntity> & IEntity)>, responseMessage: ResponseMessage): Promise<{
+        result: T;
+        message: string;
+        error: boolean;
+    } | {
+        result: any;
+        message: string;
+        error: boolean;
+    }>;
 }
 export interface GeneralFilterOptions<T> {
     limit?: number;
@@ -21,11 +69,11 @@ export interface GeneralFilterOptions<T> {
     whereClause?: Record<string, any> | string;
     select?: (keyof T)[] | string;
     orderField?: string;
-    order?: 'DESC' | 'ASC';
+    order?: "DESC" | "ASC";
 }
 export declare class GeneralResponse<T> {
     result: T;
-    message: ResponseMessage['message'];
+    message: ResponseMessage["message"];
     error: boolean;
 }
 export declare const GenericResponse: (dataType: any) => <DataDto extends Type<unknown>>(dataDto: DataDto) => <TFunction extends Function, Y>(target: object | TFunction, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
