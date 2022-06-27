@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 
 export class GeneralService<IEntity> {
-  constructor(private repo: Repository<IEntity>) {}
+  constructor(private repo: Repository<IEntity>) { }
 
   findAll(query: GeneralFilterOptions<IEntity>) {
     if (!this.repo) {
@@ -42,15 +42,18 @@ export class GeneralService<IEntity> {
         };
       }
 
-      return this.repo.find({
-        where: { ...(query.whereClause as Record<string, any>), ...dateFilter },
-        take: query.limit,
-        skip: query.limit * query.page,
-        loadEagerRelations: true,
-        order: {
-          [(query.orderField as string) || "created"]: query.order,
-        } as any,
-      });
+      return this.resultHandler<IEntity[]>(
+        this.repo.find({
+          where: { ...(query.whereClause as Record<string, any>), ...dateFilter },
+          take: query.limit,
+          skip: query.limit * query.page,
+          loadEagerRelations: true,
+          order: {
+            [(query.orderField as string) || "created"]: query.order,
+          } as any,
+        }),
+        new ResponseMessage("read", this.repo.metadata.name)
+      );
     }
 
     const x = this.repo.createQueryBuilder();
@@ -123,7 +126,7 @@ export class GeneralService<IEntity> {
       IEntity[] | IEntity | UpdateResult | (DeepPartial<IEntity> & IEntity)
     >,
     responseMessage: ResponseMessage
-  ) {
+  ): Promise<{ result: T, message: string, error: boolean } | { result: null, message: string, error: boolean }> {
     return query
       .then((val) => {
         return {
@@ -164,28 +167,28 @@ export class GeneralResponse<T> {
 
 export const GenericResponse =
   (dataType) =>
-  <DataDto extends Type<unknown>>(dataDto: DataDto) =>
-    applyDecorators(
-      ApiExtraModels(GeneralResponse, dataDto),
-      ApiOkResponse({
-        schema: {
-          allOf: [
-            { $ref: getSchemaPath(GeneralResponse) },
-            {
-              properties: {
-                result: {
-                  type: dataType,
-                  items: { $ref: getSchemaPath(dataDto) },
-                },
-                error: {
-                  type: "boolean",
-                },
-                message: {
-                  type: ResponseMessage["message"],
+    <DataDto extends Type<unknown>>(dataDto: DataDto) =>
+      applyDecorators(
+        ApiExtraModels(GeneralResponse, dataDto),
+        ApiOkResponse({
+          schema: {
+            allOf: [
+              { $ref: getSchemaPath(GeneralResponse) },
+              {
+                properties: {
+                  result: {
+                    type: dataType,
+                    items: { $ref: getSchemaPath(dataDto) },
+                  },
+                  error: {
+                    type: "boolean",
+                  },
+                  message: {
+                    type: ResponseMessage["message"],
+                  },
                 },
               },
-            },
-          ],
-        },
-      })
-    );
+            ],
+          },
+        })
+      );

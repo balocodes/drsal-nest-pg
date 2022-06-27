@@ -11,7 +11,7 @@ const common_1 = require("@nestjs/common");
 let GeneralController = class GeneralController {
 };
 GeneralController = __decorate([
-    (0, common_1.Controller)('general')
+    common_1.Controller('general')
 ], GeneralController);
 exports.GeneralController = GeneralController;
 //# sourceMappingURL=general.controller.js.map

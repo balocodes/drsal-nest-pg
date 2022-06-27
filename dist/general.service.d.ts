@@ -4,48 +4,48 @@ import { DeepPartial, Repository, UpdateResult } from "typeorm";
 export declare class GeneralService<IEntity> {
     private repo;
     constructor(repo: Repository<IEntity>);
-    findAll(query: GeneralFilterOptions<IEntity>): Promise<IEntity[]> | Promise<{
-        result: IEntity[];
+    findAll(query: GeneralFilterOptions<IEntity>): Promise<{
+        result: null;
         message: string;
         error: boolean;
     } | {
-        result: any;
+        result: IEntity[];
         message: string;
         error: boolean;
     }>;
     findOne(id: any): Promise<{
-        result: IEntity;
+        result: null;
         message: string;
         error: boolean;
     } | {
-        result: any;
+        result: IEntity;
         message: string;
         error: boolean;
     }>;
     create(data: DeepPartial<IEntity>): Promise<{
-        result: DeepPartial<IEntity> & IEntity;
+        result: null;
         message: string;
         error: boolean;
     } | {
-        result: any;
+        result: DeepPartial<IEntity> & IEntity;
         message: string;
         error: boolean;
     }>;
     update(data: DeepPartial<IEntity>): Promise<{
-        result: DeepPartial<IEntity> & IEntity;
+        result: null;
         message: string;
         error: boolean;
     } | {
-        result: any;
+        result: DeepPartial<IEntity> & IEntity;
         message: string;
         error: boolean;
     }>;
     remove(id: number): Promise<{
-        result: UpdateResult;
+        result: null;
         message: string;
         error: boolean;
     } | {
-        result: any;
+        result: UpdateResult;
         message: string;
         error: boolean;
     }>;
@@ -54,7 +54,7 @@ export declare class GeneralService<IEntity> {
         message: string;
         error: boolean;
     } | {
-        result: any;
+        result: null;
         message: string;
         error: boolean;
     }>;

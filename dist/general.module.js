@@ -13,7 +13,7 @@ const general_controller_1 = require("./general.controller");
 let GeneralModule = class GeneralModule {
 };
 GeneralModule = __decorate([
-    (0, common_1.Module)({
+    common_1.Module({
         providers: [general_service_1.GeneralService],
         controllers: [general_controller_1.GeneralController]
     })

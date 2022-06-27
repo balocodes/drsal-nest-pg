@@ -23,10 +23,10 @@ class GeneralService {
             let dateFilter = {};
             if (query.startDate) {
                 dateFilter = {
-                    [query.dateField]: (0, typeorm_1.Between)(query.startDate, query.endDate),
+                    [query.dateField]: typeorm_1.Between(query.startDate, query.endDate),
                 };
             }
-            return this.repo.find({
+            return this.resultHandler(this.repo.find({
                 where: Object.assign(Object.assign({}, query.whereClause), dateFilter),
                 take: query.limit,
                 skip: query.limit * query.page,
@@ -34,7 +34,7 @@ class GeneralService {
                 order: {
                     [query.orderField || "created"]: query.order,
                 },
-            });
+            }), new enums_1.ResponseMessage("read", this.repo.metadata.name));
         }
         const x = this.repo.createQueryBuilder();
         x.take(query.limit)
@@ -45,7 +45,7 @@ class GeneralService {
             x.addSelect(`SIMILARITY(slug, '${query.searchString.trim()}')`, "score").andWhere(`SIMILARITY(slug, '${query.searchString.trim()}') > 0.1 `);
         }
         if (query.startDate) {
-            x.andWhere(query.dateField || query.startDate, (0, typeorm_1.Between)(query.startDate, query.endDate));
+            x.andWhere(query.dateField || query.startDate, typeorm_1.Between(query.startDate, query.endDate));
         }
         if (query.searchString) {
             x.orderBy("score", "DESC");
@@ -93,15 +93,15 @@ exports.GeneralService = GeneralService;
 class GeneralResponse {
 }
 exports.GeneralResponse = GeneralResponse;
-const GenericResponse = (dataType) => (dataDto) => (0, common_1.applyDecorators)((0, swagger_1.ApiExtraModels)(GeneralResponse, dataDto), (0, swagger_1.ApiOkResponse)({
+exports.GenericResponse = (dataType) => (dataDto) => common_1.applyDecorators(swagger_1.ApiExtraModels(GeneralResponse, dataDto), swagger_1.ApiOkResponse({
     schema: {
         allOf: [
-            { $ref: (0, swagger_1.getSchemaPath)(GeneralResponse) },
+            { $ref: swagger_1.getSchemaPath(GeneralResponse) },
             {
                 properties: {
                     result: {
                         type: dataType,
-                        items: { $ref: (0, swagger_1.getSchemaPath)(dataDto) },
+                        items: { $ref: swagger_1.getSchemaPath(dataDto) },
                     },
                     error: {
                         type: "boolean",
@@ -114,5 +114,4 @@ const GenericResponse = (dataType) => (dataDto) => (0, common_1.applyDecorators)
         ],
     },
 }));
-exports.GenericResponse = GenericResponse;
 //# sourceMappingURL=general.service.js.map
