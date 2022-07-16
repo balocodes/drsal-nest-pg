@@ -1,1 +1,1 @@
-{"version":3,"file":"data-handler.js","sourceRoot":"","sources":["../../general/utils/data-handler.ts"],"names":[],"mappings":";;;AAAA,MAAa,aAAa;CASzB;AATD,sCASC"}
+{"version":3,"file":"data-handler.js","sourceRoot":"","sources":["../../general/utils/data-handler.ts"],"names":[],"mappings":";;;AAAA,MAAa,aAAa;IAWxB;QACE,IAAG,IAAI,CAAC,MAAM,EAAE;YACd,IAAI,CAAC,WAAW,GAAG,IAAI,CAAC,KAAK,CAAC,IAAI,CAAC,MAAM,CAAC,CAAA;SAC3C;IACH,CAAC;CACF;AAhBD,sCAgBC"}

@@ -2852,8 +2852,8 @@
         "affectsGlobalScope": false
       },
       "../general/utils/data-handler.ts": {
-        "version": "44f68706c7e9cfe8744bb13ca18dcfe28bd78915f0edbe7c89d28c5afd6b7375",
-        "signature": "4a9bf4d299b8d3be2960f3543c5c843bf6d206746aafc941038e1da41f3a8b75",
+        "version": "6dd899c46ca30b03ab642db403c1ee32dfd99123019dd07d876a78ec26d668cb",
+        "signature": "06869a0626a0994b645f3b49fbe405c3e791220f6e12850df3dfe6b68045ae93",
         "affectsGlobalScope": false
       },
       "../general/utils/generalfunctions.ts": {
