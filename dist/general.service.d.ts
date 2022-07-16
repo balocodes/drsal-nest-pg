@@ -66,7 +66,7 @@ export interface GeneralFilterOptions<T> {
     endDate?: string;
     dateField?: string;
     searchString?: string;
-    whereClause?: Record<string, any> | string;
+    filter?: Record<string, any> | string;
     select?: (keyof T)[] | string;
     orderField?: string;
     order?: "DESC" | "ASC";

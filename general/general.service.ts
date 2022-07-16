@@ -28,10 +28,10 @@ export class GeneralService<IEntity> {
         typeof query.select === "string"
           ? JSON.parse(query.select)
           : query.select,
-      whereClause:
-        typeof query.whereClause === "string"
-          ? JSON.parse(query.whereClause)
-          : query.whereClause,
+      filter:
+        typeof query.filter === "string"
+          ? JSON.parse(query.filter)
+          : query.filter,
     };
 
     if ((!query.select || query.select.length < 1) && !query.searchString) {
@@ -44,7 +44,7 @@ export class GeneralService<IEntity> {
 
       return this.resultHandler<IEntity[]>(
         this.repo.find({
-          where: { ...(query.whereClause as Record<string, any>), ...dateFilter },
+          where: { ...(query.filter as Record<string, any>), ...dateFilter },
           take: query.limit,
           skip: query.limit * query.page,
           loadEagerRelations: true,
@@ -60,7 +60,7 @@ export class GeneralService<IEntity> {
     x.take(query.limit)
       .skip(query.limit * query.page)
       .select(query.select as string[])
-      .where({ ...(query.whereClause as Record<string, any>) });
+      .where({ ...(query.filter as Record<string, any>) });
 
     if (query.searchString?.trim()) {
       x.addSelect(
@@ -153,7 +153,7 @@ export interface GeneralFilterOptions<T> {
   endDate?: string;
   dateField?: string;
   searchString?: string;
-  whereClause?: Record<string, any> | string;
+  filter?: Record<string, any> | string;
   select?: (keyof T)[] | string;
   orderField?: string;
   order?: "DESC" | "ASC";

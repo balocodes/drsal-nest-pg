@@ -7,6 +7,4 @@ export declare class FilterOptions {
     page?: number;
     searchString?: string;
     order?: "DESC" | "ASC";
-    whereClause?: string;
-    constructor();
 }

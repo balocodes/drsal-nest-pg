@@ -2842,8 +2842,8 @@
         "affectsGlobalScope": false
       },
       "../general/general.service.ts": {
-        "version": "1ad0c6d9f52aa72def06e98065328f7e7f9494362ba63bbb24b23ab4cac7d647",
-        "signature": "3d860805750958f6335f278021cd9620f4244be503a6ae90b9a1cb94aff6f7d7",
+        "version": "327f8e77e06af29ec30834989fec6e94ad5bcb45ca2c16bac41c7d91442110d6",
+        "signature": "60ea642eb1f4bd494c3f95d96359c1c1be6c3866751ac97e4573c7074cd88a79",
         "affectsGlobalScope": false
       },
       "../general/general.module.ts": {
@@ -2852,8 +2852,8 @@
         "affectsGlobalScope": false
       },
       "../general/utils/data-handler.ts": {
-        "version": "6dd899c46ca30b03ab642db403c1ee32dfd99123019dd07d876a78ec26d668cb",
-        "signature": "06869a0626a0994b645f3b49fbe405c3e791220f6e12850df3dfe6b68045ae93",
+        "version": "44f68706c7e9cfe8744bb13ca18dcfe28bd78915f0edbe7c89d28c5afd6b7375",
+        "signature": "4a9bf4d299b8d3be2960f3543c5c843bf6d206746aafc941038e1da41f3a8b75",
         "affectsGlobalScope": false
       },
       "../general/utils/generalfunctions.ts": {
