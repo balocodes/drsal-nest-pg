@@ -1,6 +1,10 @@
 {
   "name": "@balocodes/drsal-nest-pg",
+<<<<<<< HEAD
   "version": "1.1.3",
+=======
+  "version": "1.2.0",
+>>>>>>> 7bb25e1aa23c436219cf9e65a2703caf6efa4812
   "description": "General Request Handler for NestJs and Postgres",
   "main": "index.js",
   "scripts": {
@@ -26,8 +30,11 @@
   },
   "homepage": "https://github.com/balocodes/drsal-nest-pg#readme",
   "dependencies": {
-    "@nestjs/common": "^8.0.0",
-    "@nestjs/swagger": "^5.2.1",
-    "typeorm": "0.2"
+    "@nestjs/common": "^9.0.11",
+    "@nestjs/core": "^9.0.11",
+    "@nestjs/swagger": "^6.0.5",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.5.6",
+    "typeorm": "0.3.7"
   }
 }
