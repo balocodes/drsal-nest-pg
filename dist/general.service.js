@@ -4,7 +4,7 @@ exports.GenericResponse = exports.GeneralResponse = exports.GeneralService = voi
 const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const enums_1 = require("./utils/enums");
-const typeorm_1 = require("typeorm");
+const Between_1 = require("typeorm/find-options/operator/Between");
 class GeneralService {
     constructor(repo) {
         this.repo = repo;
@@ -23,7 +23,7 @@ class GeneralService {
             let dateFilter = {};
             if (query.startDate) {
                 dateFilter = {
-                    [query.dateField]: typeorm_1.Between(query.startDate, query.endDate),
+                    [query.dateField]: Between_1.Between(query.startDate, query.endDate),
                 };
             }
             return this.resultHandler(this.repo.find({
@@ -40,12 +40,13 @@ class GeneralService {
         x.take(query.limit)
             .skip(query.limit * query.page)
             .select(query.select)
-            .where(Object.assign({}, query.filter));
+            .where(Object.assign({}, query.filter))
+            .distinctOn(query.distinctOn || []);
         if ((_a = query.searchString) === null || _a === void 0 ? void 0 : _a.trim()) {
             x.addSelect(`SIMILARITY(slug, '${query.searchString.trim()}')`, "score").andWhere(`SIMILARITY(slug, '${query.searchString.trim()}') > 0.1 `);
         }
         if (query.startDate) {
-            x.andWhere(query.dateField || query.startDate, typeorm_1.Between(query.startDate, query.endDate));
+            x.andWhere(query.dateField || query.startDate, Between_1.Between(query.startDate, query.endDate));
         }
         if (query.searchString) {
             x.orderBy("score", "DESC");

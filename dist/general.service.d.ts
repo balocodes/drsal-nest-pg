@@ -70,6 +70,7 @@ export interface GeneralFilterOptions<T> {
     select?: (keyof T)[] | string;
     orderField?: string;
     order?: "DESC" | "ASC";
+    distinctOn?: string[];
 }
 export declare class GeneralResponse<T> {
     result: T;

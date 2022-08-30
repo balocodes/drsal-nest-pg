@@ -2842,8 +2842,8 @@
         "affectsGlobalScope": false
       },
       "../general/general.service.ts": {
-        "version": "327f8e77e06af29ec30834989fec6e94ad5bcb45ca2c16bac41c7d91442110d6",
-        "signature": "60ea642eb1f4bd494c3f95d96359c1c1be6c3866751ac97e4573c7074cd88a79",
+        "version": "38d71a29d95d4f8a47218ba05496179facc5ab03143f573068f67d7dfc8a79f5",
+        "signature": "7bac770b782fd2cbfcbc98eff20e721c5725a6e71060730558202e61e100eb50",
         "affectsGlobalScope": false
       },
       "../general/general.module.ts": {
@@ -2900,6 +2900,7 @@
         "../general/utils/enums.ts",
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/swagger/index.d.ts",
+        "../node_modules/typeorm/find-options/operator/between.d.ts",
         "../node_modules/typeorm/index.d.ts"
       ],
       "../node_modules/@nestjs/common/cache/cache.module.d.ts": [
