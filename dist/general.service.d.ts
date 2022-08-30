@@ -71,6 +71,7 @@ export interface GeneralFilterOptions<T> {
     orderField?: string;
     order?: "DESC" | "ASC";
     distinctOn?: string[];
+    precision?: number;
 }
 export declare class GeneralResponse<T> {
     result: T;

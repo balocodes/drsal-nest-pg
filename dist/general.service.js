@@ -43,7 +43,7 @@ class GeneralService {
             .where(Object.assign({}, query.filter))
             .distinctOn(query.distinctOn || []);
         if ((_a = query.searchString) === null || _a === void 0 ? void 0 : _a.trim()) {
-            x.addSelect(`SIMILARITY(slug, '${query.searchString.trim()}')`, "score").andWhere(`SIMILARITY(slug, '${query.searchString.trim()}') > 0.1 `);
+            x.addSelect(`SIMILARITY(slug, '${query.searchString.trim()}')`, "score").andWhere(`SIMILARITY(slug, '${query.searchString.trim()}') > ${String(query.precision) || "0.1"} `);
         }
         if (query.startDate) {
             x.andWhere(query.dateField || query.startDate, Between_1.Between(query.startDate, query.endDate));

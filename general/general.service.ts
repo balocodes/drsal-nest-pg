@@ -62,7 +62,11 @@ export class GeneralService<IEntity> {
       x.addSelect(
         `SIMILARITY(slug, '${query.searchString.trim()}')`,
         "score"
-      ).andWhere(`SIMILARITY(slug, '${query.searchString.trim()}') > 0.1 `);
+      ).andWhere(
+        `SIMILARITY(slug, '${query.searchString.trim()}') > ${
+          String(query.precision) || "0.1"
+        } `
+      );
     }
 
     if (query.startDate) {
@@ -156,7 +160,8 @@ export interface GeneralFilterOptions<T> {
   select?: (keyof T)[] | string;
   orderField?: string;
   order?: "DESC" | "ASC";
-  distinctOn?: string[]
+  distinctOn?: string[];
+  precision?: number;
 }
 
 export class GeneralResponse<T> {
