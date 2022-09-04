@@ -4,7 +4,7 @@ import { ResponseMessage } from "./utils/enums";
 import { DeepPartial, Repository, UpdateResult } from "typeorm";
 import { Between } from "typeorm/find-options/operator/Between";
 
-export class GeneralService<IEntity, ExpectedReturnType> {
+export class GeneralService<IEntity> {
   constructor(private repo: Repository<IEntity>) {}
 
   findAll(query: GeneralFilterOptions<IEntity>) {
@@ -37,7 +37,7 @@ export class GeneralService<IEntity, ExpectedReturnType> {
         };
       }
 
-      return this.resultHandler<ExpectedReturnType[]>(
+      return this.resultHandler<IEntity[]>(
         this.repo.find({
           where: { ...(query.filter as Record<string, any>), ...dateFilter },
           take: query.limit,
@@ -84,21 +84,21 @@ export class GeneralService<IEntity, ExpectedReturnType> {
       x.addOrderBy(query.orderField, query.order);
     }
 
-    return this.resultHandler<ExpectedReturnType[]>(
+    return this.resultHandler<IEntity[]>(
       x.getMany(),
       new ResponseMessage("read", this.repo.metadata.name)
     );
   }
 
   findOne(id) {
-    return this.resultHandler<ExpectedReturnType>(
+    return this.resultHandler<IEntity>(
       this.repo.findOne(id),
       new ResponseMessage("read-single", this.repo.metadata.name)
     );
   }
 
   create(data: DeepPartial<IEntity>) {
-    return this.resultHandler<DeepPartial<IEntity> & IEntity>(
+    return this.resultHandler<IEntity>(
       this.repo.save(data),
       new ResponseMessage("add", this.repo.metadata.name)
     );
@@ -108,7 +108,7 @@ export class GeneralService<IEntity, ExpectedReturnType> {
     if (!(data as any).id) {
       throw Error("Id required to update data");
     }
-    return this.resultHandler<DeepPartial<IEntity> & IEntity>(
+    return this.resultHandler<IEntity>(
       this.repo.save(data),
       new ResponseMessage("update", this.repo.metadata.name)
     );
