@@ -4,7 +4,7 @@ import { ResponseMessage } from "./utils/enums";
 import { DeepPartial, Repository, UpdateResult } from "typeorm";
 import { Between } from "typeorm/find-options/operator/Between";
 
-export class GeneralService<IEntity> {
+export class GeneralService<IEntity, ExpectedReturnType> {
   constructor(private repo: Repository<IEntity>) {}
 
   findAll(query: GeneralFilterOptions<IEntity>) {
@@ -37,7 +37,7 @@ export class GeneralService<IEntity> {
         };
       }
 
-      return this.resultHandler<IEntity[]>(
+      return this.resultHandler<ExpectedReturnType[]>(
         this.repo.find({
           where: { ...(query.filter as Record<string, any>), ...dateFilter },
           take: query.limit,
@@ -84,14 +84,14 @@ export class GeneralService<IEntity> {
       x.addOrderBy(query.orderField, query.order);
     }
 
-    return this.resultHandler<IEntity[]>(
+    return this.resultHandler<ExpectedReturnType[]>(
       x.getMany(),
       new ResponseMessage("read", this.repo.metadata.name)
     );
   }
 
   findOne(id) {
-    return this.resultHandler<IEntity>(
+    return this.resultHandler<ExpectedReturnType>(
       this.repo.findOne(id),
       new ResponseMessage("read-single", this.repo.metadata.name)
     );

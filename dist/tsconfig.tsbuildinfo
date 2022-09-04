@@ -2842,8 +2842,8 @@
         "affectsGlobalScope": false
       },
       "../general/general.service.ts": {
-        "version": "f848dc0a608bcf560d4ccd397805d721d61af458928fc88377f650224466c3a1",
-        "signature": "a2ccd94ac0ac6f3c597430a52adc648b0685889489885164db02aa3d141c78b6",
+        "version": "a8b5d08206c43371b31bb2c6321a28b1e11228155737f0140b4dd6a56c49728b",
+        "signature": "00edaeff8314f867820ed719487a1cd01f0e6a1ab896c21f7a75fac664b416b6",
         "affectsGlobalScope": false
       },
       "../general/general.module.ts": {

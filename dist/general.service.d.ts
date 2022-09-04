@@ -1,7 +1,7 @@
 import { Type } from "@nestjs/common";
 import { ResponseMessage } from "./utils/enums";
 import { DeepPartial, Repository, UpdateResult } from "typeorm";
-export declare class GeneralService<IEntity> {
+export declare class GeneralService<IEntity, ExpectedReturnType> {
     private repo;
     constructor(repo: Repository<IEntity>);
     findAll(query: GeneralFilterOptions<IEntity>): Promise<{
@@ -9,7 +9,7 @@ export declare class GeneralService<IEntity> {
         message: string;
         error: boolean;
     } | {
-        result: IEntity[];
+        result: ExpectedReturnType[];
         message: string;
         error: boolean;
     }>;
@@ -18,7 +18,7 @@ export declare class GeneralService<IEntity> {
         message: string;
         error: boolean;
     } | {
-        result: IEntity;
+        result: ExpectedReturnType;
         message: string;
         error: boolean;
     }>;
